@@ -60,3 +60,45 @@ main {
   margin-bottom: 0.5rem;
   background: #ffe7c2;
 }
+.admin-login {
+  max-width: 400px;
+  margin: 2.5rem auto 3rem;
+  padding: 1.5rem 1.8rem;
+  background: #fdf1e7;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.admin-login-form label {
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.admin-login-form input[type="password"] {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #e3c1b6;
+  margin-top: 0.2rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fdf1e7;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid #f0d6c8;
+  vertical-align: top;
+}
+
+.admin-table th {
+  background: #f0d6c8;
+  text-align: left;
+}

@@ -2,9 +2,11 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 import sqlite3
 from datetime import datetime
 import os
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "CHANGE_ME_TO_SOMETHING_RANDOM" 
+ADMIN_PASSWORD = "kanaeladmin"  # password to access admin. 
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join(BASE_DIR, "kanael.db")
@@ -117,6 +119,14 @@ def init_db():
 with app.app_context():
     init_db()
 
+def login_required(view_func):
+    @wraps(view_func)
+    def wrapped_view(*args, **kwargs):
+        if not session.get("is_admin"):
+            flash("Please log in to access the admin area.", "warning")
+            return redirect(url_for("admin_login"))
+        return view_func(*args, **kwargs)
+    return wrapped_view
 
 # Helper functions 
 
@@ -326,9 +336,29 @@ def contact():
     return render_template("contact.html")
 
 
-# Simple admin area (no full auth, just a basic “hidden” area) 
+# admin area  
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    if request.method == "POST":
+        password = request.form.get("password", "")
+        if password == ADMIN_PASSWORD:
+            session["is_admin"] = True
+            flash("Logged in as admin.", "success")
+            return redirect(url_for("admin_dashboard"))
+        else:
+            flash("Incorrect password.", "danger")
+    return render_template("admin_login.html")
+
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("is_admin", None)
+    flash("You have been logged out.", "info")
+    return redirect(url_for("index"))
 
 @app.route("/admin")
+@login_required
 def admin_dashboard():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -349,6 +379,7 @@ def admin_dashboard():
 
 
 @app.route("/admin/menu", methods=["GET", "POST"])
+@login_required
 def admin_menu():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -383,6 +414,7 @@ def admin_menu():
 
 
 @app.route("/admin/menu/<int:item_id>/delete", methods=["POST"])
+@login_required
 def delete_menu_item(item_id):
     conn = get_db_connection()
     cur = conn.cursor()
@@ -394,6 +426,7 @@ def delete_menu_item(item_id):
 
 
 @app.route("/admin/orders")
+@login_required
 def admin_orders():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -401,6 +434,16 @@ def admin_orders():
     orders = cur.fetchall()
     conn.close()
     return render_template("admin_orders.html", orders=orders)
+
+@app.route("/admin/messages")
+@login_required
+def admin_messages():
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM messages ORDER BY created_at DESC")
+    messages = cur.fetchall()
+    conn.close()
+    return render_template("admin_messages.html", messages=messages)
 
 
 if __name__ == "__main__":

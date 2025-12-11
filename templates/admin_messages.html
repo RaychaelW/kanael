@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="admin">
+  <h2>Customer Messages</h2>
+
+  {% if not messages %}
+    <p>No messages yet.</p>
+  {% else %}
+    <table class="admin-table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Message</th>
+          <th>Received</th>
+          <th>Reply</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in messages %}
+          <tr>
+            <td>{{ m.name }}</td>
+            <td>
+              {% if m.email %}
+                <a href="mailto:{{ m.email }}">{{ m.email }}</a>
+              {% else %}
+                <em>No email</em>
+              {% endif %}
+            </td>
+            <td>{{ m.message }}</td>
+            <td>{{ m.created_at }}</td>
+            <td>
+              {% if m.email %}
+                <a
+                  class="btn-primary"
+                  href="mailto:{{ m.email }}?subject=Reply from Kanael Dessert Café&body=Hi {{ m.name }},%0D%0A%0D%0A"
+                >
+                  Reply
+                </a>
+              {% else %}
+                <em>N/A</em>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</section>
+{% endblock %}

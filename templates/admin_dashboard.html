@@ -16,7 +16,11 @@
     <div class="card">
       <h3>Messages</h3>
       <p>{{ message_count }}</p>
+      <a href="{{ url_for('admin_messages') }}">View Messages</a>
     </div>
   </div>
+  <p style="margin-top: 1rem;">
+    <a href="{{ url_for('admin_logout') }}">Log out</a>
+  </p>
 </section>
 {% endblock %}
