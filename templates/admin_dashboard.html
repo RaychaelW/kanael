@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="admin">
+  <h2>Admin Dashboard</h2>
+  <div class="admin-cards">
+    <div class="card">
+      <h3>Menu Items</h3>
+      <p>{{ menu_count }}</p>
+      <a href="{{ url_for('admin_menu') }}">Manage Menu</a>
+    </div>
+    <div class="card">
+      <h3>Orders</h3>
+      <p>{{ order_count }}</p>
+      <a href="{{ url_for('admin_orders') }}">View Orders</a>
+    </div>
+    <div class="card">
+      <h3>Messages</h3>
+      <p>{{ message_count }}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="menu">
+  <h2>Our Menu</h2>
+
+  <form method="get" class="filters">
+    <input type="text" name="q" placeholder="Search desserts..." value="{{ search or '' }}">
+    <select name="category">
+      <option value="">All categories</option>
+      <option value="Dessert" {% if selected_category == "Dessert" %}selected{% endif %}>Desserts</option>
+      <option value="Drink" {% if selected_category == "Drink" %}selected{% endif %}>Drinks</option>
+      <option value="Brunch" {% if selected_category == "Brunch" %}selected{% endif %}>Brunch</option>
+    </select>
+    <button type="submit">Filter</button>
+  </form>
+
+  {% if desserts %}
+    <div class="menu-grid">
+      {% for dessert in desserts %}
+        <article class="menu-item">
+          <h3>{{ dessert.name }}</h3>
+          <p class="category">{{ dessert.category }}</p>
+          <p>{{ dessert.description }}</p>
+          <p class="price">£{{ "%.2f"|format(dessert.price) }}</p>
+          <form action="{{ url_for('add_to_cart', item_id=dessert.id) }}" method="post">
+            <button type="submit">Add to Cart</button>
+          </form>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No items found.</p>
+  {% endif %}
+</section>
+{% endblock %}

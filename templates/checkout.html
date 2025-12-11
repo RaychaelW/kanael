@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="checkout">
+  <h2>Checkout</h2>
+
+  <div class="checkout-layout">
+    <div class="summary">
+      <h3>Order Summary</h3>
+      <ul>
+        {% for item in items %}
+          <li>{{ item.quantity }} × {{ item.name }} — £{{ "%.2f"|format(item.line_total) }}</li>
+        {% endfor %}
+      </ul>
+      <p class="cart-total">Total: £{{ "%.2f"|format(total) }}</p>
+    </div>
+
+    <form method="post" class="details">
+      <h3>Your Details</h3>
+      <label>Name
+        <input type="text" name="name" required>
+      </label>
+      <label>Phone
+        <input type="text" name="phone" required>
+      </label>
+      <label>Address
+        <textarea name="address"></textarea>
+      </label>
+      <label>Notes (allergies, requests)
+        <textarea name="notes"></textarea>
+      </label>
+      <button type="submit">Place Order</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

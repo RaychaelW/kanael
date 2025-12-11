@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="confirm">
+  <h2>Order Confirmed</h2>
+  <p>Thank you, {{ order.customer_name }}! Your order ID is <strong>#{{ order.id }}</strong>.</p>
+  <p>We will contact you on {{ order.phone }} if we need any more details.</p>
+
+  <h3>Order Items</h3>
+  <ul>
+    {% for item in items %}
+      <li>{{ item["quantity"] }} × {{ item["item_name"] }} — £{{ "%.2f"|format(item["price"]) }}</li>
+    {% endfor %}
+  </ul>
+
+  <p>Total: £{{ "%.2f"|format(order.total) }}</p>
+  <p><a href="{{ url_for('index') }}">Back to Home</a></p>
+</section>
+{% endblock %}

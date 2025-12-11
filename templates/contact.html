@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="contact">
+  <h2>Contact Us</h2>
+  <p>Have a question or special request? Send us a message.</p>
+
+  <form method="post">
+    <label>Name
+      <input type="text" name="name" required>
+    </label>
+    <label>Email
+      <input type="email" name="email">
+    </label>
+    <label>Message
+      <textarea name="message" required></textarea>
+    </label>
+    <button type="submit">Send Message</button>
+  </form>
+
+  <div class="contact-info">
+    <h3>Visit Kanael</h3>
+    <p>123 Sweet Street, Dessert District<br>New York, NY 10001</p>
+    <p>Phone: (555) 123-4567<br>Email: hello@kanael.com</p>
+  </div>
+</section>
+{% endblock %}
