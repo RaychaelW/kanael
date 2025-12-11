@@ -1,37 +1,77 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="admin">
-  <h2>Manage Menu</h2>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2>Admin<br>Dashboard</h2>
+    <p class="admin-brand">Kanael Dessert Café</p>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+      <a href="{{ url_for('admin_menu') }}" class="admin-nav-link active">Manage Menu</a>
+      <a href="{{ url_for('admin_orders') }}" class="admin-nav-link">View Orders</a>
+      <a href="{{ url_for('admin_messages') }}" class="admin-nav-link">Messages</a>
+    </nav>
+  </aside>
 
-  <form method="post" class="admin-form">
-    <h3>Add New Item</h3>
-    <label>Name <input type="text" name="name" required></label>
-    <label>Description <textarea name="description"></textarea></label>
-    <label>Category <input type="text" name="category" placeholder="Dessert / Drink / Brunch"></label>
-    <label>Price (£) <input type="number" name="price" step="0.01" required></label>
-    <button type="submit">Add Item</button>
-  </form>
+  <section class="admin-main">
+    <div class="admin-main-header">
+      <h1>Menu Items</h1>
+      <p>Manage your dessert, drinks and brunch items.</p>
+    </div>
 
-  <h3>Existing Items</h3>
-  <table>
-    <thead>
-      <tr><th>Name</th><th>Category</th><th>Price</th><th>Actions</th></tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-        <tr>
-          <td>{{ item.name }}</td>
-          <td>{{ item.category }}</td>
-          <td>£{{ "%.2f"|format(item.price) }}</td>
-          <td>
-        
-            <form method="post" action="{{ url_for('delete_menu_item', item_id=item.id) }}">
-              <button type="submit">Delete</button>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</section>
+    <div class="admin-card" style="margin-bottom: 1.4rem;">
+      <h3>Add New Item</h3>
+      <form method="post" class="admin-menu-form">
+        <label>
+          Name
+          <input type="text" name="name">
+        </label>
+        <label>
+          Description
+          <textarea name="description"></textarea>
+        </label>
+        <label>
+          Category
+          <select name="category">
+            <option value="Dessert">Dessert</option>
+            <option value="Drink">Drink</option>
+            <option value="Brunch">Brunch</option>
+          </select>
+        </label>
+        <label>
+          Price (£)
+          <input type="text" name="price">
+        </label>
+        <button type="submit" class="btn-primary">Add Item</button>
+      </form>
+    </div>
+
+    <div class="admin-card">
+      <h3>Existing Items</h3>
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Price (£)</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          <tr>
+            <td>{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ "%.2f"|format(item.price) }}</td>
+            <td>
+              <form method="post" action="{{ url_for('delete_menu_item', item_id=item.id) }}" onsubmit="return confirm('Delete this item?');">
+                <button type="submit" class="btn">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
 {% endblock %}

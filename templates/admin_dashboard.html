@@ -1,26 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="admin">
-  <h2>Admin Dashboard</h2>
-  <div class="admin-cards">
-    <div class="card">
-      <h3>Menu Items</h3>
-      <p>{{ menu_count }}</p>
-      <a href="{{ url_for('admin_menu') }}">Manage Menu</a>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2>Admin<br>Dashboard</h2>
+    <p class="admin-brand">Kanael Dessert Café</p>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link active">Overview</a>
+      <a href="{{ url_for('admin_menu') }}" class="admin-nav-link">Manage Menu</a>
+      <a href="{{ url_for('admin_orders') }}" class="admin-nav-link">View Orders</a>
+      <a href="{{ url_for('admin_messages') }}" class="admin-nav-link">Messages</a>
+    </nav>
+  </aside>
+
+  <section class="admin-main">
+    <div class="admin-main-header">
+      <h1>Overview</h1>
+      <p>Quick snapshot of activity across Kanael Dessert Café.</p>
     </div>
-    <div class="card">
-      <h3>Orders</h3>
-      <p>{{ order_count }}</p>
-      <a href="{{ url_for('admin_orders') }}">View Orders</a>
+
+    <div class="admin-stats">
+      <div class="admin-stat-card">
+        <span class="label">Menu items</span>
+        <span class="value">{{ menu_count }}</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="label">Orders</span>
+        <span class="value">{{ order_count }}</span>
+      </div>
+      <div class="admin-stat-card">
+        <span class="label">Messages</span>
+        <span class="value">{{ message_count }}</span>
+      </div>
     </div>
-    <div class="card">
-      <h3>Messages</h3>
-      <p>{{ message_count }}</p>
-      <a href="{{ url_for('admin_messages') }}">View Messages</a>
-    </div>
-  </div>
-  <p style="margin-top: 1rem;">
-    <a href="{{ url_for('admin_logout') }}">Log out</a>
-  </p>
-</section>
+  </section>
+</div>
 {% endblock %}

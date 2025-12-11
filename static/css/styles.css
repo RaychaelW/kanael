@@ -347,3 +347,205 @@ button:hover,
   background: #f0d6c8;
   text-align: left;
 }
+/* ---------- Admin layout with sidebar ---------- */
+
+.admin-layout {
+  display: flex;
+  gap: 0;
+  margin: 2rem auto 3rem;
+  max-width: 1200px;
+  min-height: 480px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: #dec8a2; /* warm beige band behind main area */
+}
+
+.admin-sidebar {
+  width: 260px;
+  background: #f6d6e6;
+  padding: 2.5rem 1.6rem;
+  box-sizing: border-box;
+}
+
+.admin-sidebar h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.9rem;
+  line-height: 1.1;
+}
+
+.admin-sidebar .admin-brand {
+  margin: 0 0 2rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.admin-nav-link {
+  display: block;
+  padding: 0.7rem 1rem;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #333;
+  background: transparent;
+  font-weight: 500;
+}
+
+.admin-nav-link.active,
+.admin-nav-link:hover {
+  background: #ffffff;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+}
+
+/* main admin content area */
+.admin-main {
+  flex: 1;
+  padding: 2.2rem 2.3rem 2.5rem;
+  box-sizing: border-box;
+}
+
+.admin-main-header h1 {
+  margin: 0 0 0.4rem;
+  font-size: 2.1rem;
+}
+
+.admin-main-header p {
+  margin: 0 0 1.6rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* card around tables / forms */
+.admin-card {
+  background: #fbe2f0;
+  border-radius: 20px;
+  padding: 1.2rem 1.3rem 1.5rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+}
+
+/* small stat cards on dashboard */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-top: 1.4rem;
+}
+
+.admin-stat-card {
+  background: #fdf1e7;
+  border-radius: 16px;
+  padding: 0.9rem 1rem;
+}
+
+.admin-stat-card span.label {
+  display: block;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #777;
+}
+
+.admin-stat-card span.value {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 0.3rem;
+}
+
+/* ---------- Contact page layout ---------- */
+
+.contact-page {
+  max-width: 1100px;
+  margin: 2.5rem auto 3rem;
+  padding: 0 1.5rem;
+}
+
+.contact-page h2 {
+  font-size: 2.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.contact-subtitle {
+  color: #555;
+  margin-bottom: 1.8rem;
+  font-size: 0.98rem;
+}
+
+.contact-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.contact-panel {
+  background: #dec8a2;
+  border-radius: 20px;
+  padding: 2rem 2.2rem;
+  box-sizing: border-box;
+}
+
+.contact-panel h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.contact-details p {
+  margin: 0 0 0.5rem;
+}
+
+.contact-map-placeholder {
+  background: #f7efe0;
+  border-radius: 16px;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  color: #777;
+}
+
+/* contact form */
+
+.contact-form-wrapper {
+  background: #fdf1e7;
+  border-radius: 20px;
+  padding: 1.6rem 1.8rem 1.9rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+}
+
+.contact-form-wrapper h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-size: 0.95rem;
+}
+
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border-radius: 8px;
+  border: 1px solid #e3c1b6;
+  margin-top: 0.25rem;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.contact-form textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.contact-form button {
+  margin-top: 0.5rem;
+}

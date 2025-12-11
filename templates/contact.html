@@ -1,26 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="contact">
+<section class="contact-page">
   <h2>Contact Us</h2>
-  <p>Have a question or special request? Send us a message.</p>
+  <p class="contact-subtitle">We’d love to hear from you – whether it’s a question, feedback or a custom dessert request.</p>
 
-  <form method="post">
-    <label>Name
-      <input type="text" name="name" required>
-    </label>
-    <label>Email
-      <input type="email" name="email">
-    </label>
-    <label>Message
-      <textarea name="message" required></textarea>
-    </label>
-    <button type="submit">Send Message</button>
-  </form>
+  <div class="contact-top">
+    <div class="contact-panel">
+      <h3>Contact Information</h3>
+      <div class="contact-details">
+        <p><strong>Address</strong><br>
+        123 Sweet Street<br>
+        Dessert District<br>
+        New York, NY 10001</p>
 
-  <div class="contact-info">
-    <h3>Visit Kanael</h3>
-    <p>123 Sweet Street, Dessert District<br>New York, NY 10001</p>
-    <p>Phone: (555) 123-4567<br>Email: hello@kanael.com</p>
+        <p><strong>Phone</strong><br>
+        (555) 123-4567</p>
+
+        <p><strong>Email</strong><br>
+        hello@kanael.com</p>
+
+        <p><strong>Opening Hours</strong><br>
+        Mon–Fri: 9:00 AM – 8:00 PM<br>
+        Sat–Sun: 10:00 AM – 9:00 PM</p>
+      </div>
+    </div>
+
+    <div class="contact-panel">
+      <h3>Find Us</h3>
+      <div class="contact-map-placeholder">
+        Map Placeholder
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-form-wrapper">
+    <h3>Send us a message</h3>
+    <form method="post" class="contact-form">
+      <label>
+        Name
+        <input type="text" name="name" required>
+      </label>
+      <label>
+        Email
+        <input type="email" name="email">
+      </label>
+      <label>
+        Message
+        <textarea name="message" required></textarea>
+      </label>
+      <button type="submit" class="btn-primary">Submit</button>
+    </form>
   </div>
 </section>
 {% endblock %}

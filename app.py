@@ -78,6 +78,16 @@ def init_db():
         );
         """
     )
+        # Ensure reply columns exist on messages table
+    cur.execute("PRAGMA table_info(messages)")
+    cols = [row[1] for row in cur.fetchall()]
+
+    if "admin_reply" not in cols:
+        cur.execute("ALTER TABLE messages ADD COLUMN admin_reply TEXT")
+
+    if "replied_at" not in cols:
+        cur.execute("ALTER TABLE messages ADD COLUMN replied_at TEXT")
+
 
     # Seed demo menu items if empty
     cur.execute("SELECT COUNT(*) AS c FROM menu_items")
@@ -516,6 +526,43 @@ def admin_messages():
     conn.close()
     return render_template("admin_messages.html", messages=messages)
 
+@app.route("/admin/messages/<int:msg_id>", methods=["GET", "POST"])
+@login_required
+def admin_view_message(msg_id):
+    conn = get_db_connection()
+    cur = conn.cursor()
+
+    # Fetch message
+    cur.execute("SELECT * FROM messages WHERE id = ?", (msg_id,))
+    message = cur.fetchone()
+
+    if not message:
+        flash("Message not found.", "danger")
+        return redirect(url_for("admin_messages"))
+
+    # Handle reply submit
+    if request.method == "POST":
+        reply = request.form.get("reply", "").strip()
+
+        if reply:
+            cur.execute(
+                """
+                UPDATE messages 
+                SET admin_reply = ?, replied_at = ? 
+                WHERE id = ?
+                """,
+                (reply, datetime.now().isoformat(timespec="seconds"), msg_id)
+            )
+            conn.commit()
+            flash("Reply saved.", "success")
+        else:
+            flash("Reply cannot be empty.", "warning")
+
+        conn.close()
+        return redirect(url_for("admin_view_message", msg_id=msg_id))
+
+    conn.close()
+    return render_template("admin_message_view.html", message=message)
 
 if __name__ == "__main__":
     app.run(debug=True)

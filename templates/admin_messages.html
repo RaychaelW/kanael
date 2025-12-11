@@ -1,50 +1,49 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="admin">
-  <h2>Customer Messages</h2>
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2>Admin<br>Dashboard</h2>
+    <p class="admin-brand">Kanael Dessert Café</p>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+      <a href="{{ url_for('admin_menu') }}" class="admin-nav-link">Manage Menu</a>
+      <a href="{{ url_for('admin_orders') }}" class="admin-nav-link">View Orders</a>
+      <a href="{{ url_for('admin_messages') }}" class="admin-nav-link active">Messages</a>
+    </nav>
+  </aside>
 
-  {% if not messages %}
-    <p>No messages yet.</p>
-  {% else %}
-    <table class="admin-table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Message</th>
-          <th>Received</th>
-          <th>Reply</th>
-        </tr>
-      </thead>
-      <tbody>
+  <section class="admin-main">
+    <div class="admin-main-header">
+      <h1>Messages</h1>
+      <p>Feedback and enquiries submitted through the contact form.</p>
+    </div>
+
+    <div class="admin-card">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Received</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
         {% for m in messages %}
           <tr>
             <td>{{ m.name }}</td>
-            <td>
-              {% if m.email %}
-                <a href="mailto:{{ m.email }}">{{ m.email }}</a>
-              {% else %}
-                <em>No email</em>
-              {% endif %}
-            </td>
+            <td>{{ m.email }}</td>
             <td>{{ m.message }}</td>
             <td>{{ m.created_at }}</td>
             <td>
-              {% if m.email %}
-                <a
-                  class="btn-primary"
-                  href="mailto:{{ m.email }}?subject=Reply from Kanael Dessert Café&body=Hi {{ m.name }},%0D%0A%0D%0A"
-                >
-                  Reply
-                </a>
-              {% else %}
-                <em>N/A</em>
-              {% endif %}
-            </td>
+  <a href="{{ url_for('admin_view_message', msg_id=m.id) }}" class="btn">View</a>
+</td>
           </tr>
         {% endfor %}
-      </tbody>
-    </table>
-  {% endif %}
-</section>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
 {% endblock %}

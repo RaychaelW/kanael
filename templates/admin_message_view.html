@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <h2>Admin<br>Dashboard</h2>
+    <p class="admin-brand">Kanael Dessert Café</p>
+    <nav class="admin-nav">
+      <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link">Overview</a>
+      <a href="{{ url_for('admin_menu') }}" class="admin-nav-link">Manage Menu</a>
+      <a href="{{ url_for('admin_orders') }}" class="admin-nav-link">View Orders</a>
+      <a href="{{ url_for('admin_messages') }}" class="admin-nav-link active">Messages</a>
+    </nav>
+  </aside>
+
+  <section class="admin-main">
+    <div class="admin-main-header">
+      <h1>Message from {{ message.name }}</h1>
+      <p>Received: {{ message.created_at }}</p>
+    </div>
+
+    <div class="admin-card" style="margin-bottom: 1.5rem;">
+      <h3>Message</h3>
+      <p><strong>Email:</strong> {{ message.email }}</p>
+      <p>{{ message.message }}</p>
+    </div>
+
+    <div class="admin-card">
+      <h3>Reply</h3>
+
+      {% if message.admin_reply %}
+        <p><strong>Your reply:</strong></p>
+        <p>{{ message.admin_reply }}</p>
+        <p><em>Replied at: {{ message.replied_at }}</em></p>
+      {% else %}
+        <form method="post">
+          <label>
+            Write reply:
+            <textarea name="reply" style="width:100%; height:120px;"></textarea>
+          </label>
+          <button type="submit" class="btn-primary" style="margin-top:0.6rem;">
+            Send Reply
+          </button>
+        </form>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+{% endblock %}
