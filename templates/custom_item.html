@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="custom-builder">
+  <h2>Create Your Own {{ item_label|title }}</h2>
+  <p class="menu-subtitle">Choose your toppings and adjustments, and we’ll prepare it just the way you like it.</p>
+
+  <form method="post" class="custom-form">
+    <fieldset>
+      <legend>Extra toppings</legend>
+      <label><input type="checkbox" name="toppings" value="fresh berries"> Fresh berries</label>
+      <label><input type="checkbox" name="toppings" value="banana slices"> Banana slices</label>
+      <label><input type="checkbox" name="toppings" value="Nutella"> Nutella</label>
+      <label><input type="checkbox" name="toppings" value="caramel sauce"> Caramel sauce</label>
+      <label><input type="checkbox" name="toppings" value="vanilla ice cream"> Vanilla ice cream</label>
+    </fieldset>
+
+    <fieldset>
+      <legend>Remove / adjust</legend>
+      <label><input type="checkbox" name="adjustments" value="no nuts"> No nuts</label>
+      <label><input type="checkbox" name="adjustments" value="less syrup"> Less syrup</label>
+      <label><input type="checkbox" name="adjustments" value="extra crispy"> Extra crispy</label>
+    </fieldset>
+
+    <label>Other notes
+      <textarea name="other" placeholder="E.g. cut into smaller pieces, sauce on the side..."></textarea>
+    </label>
+
+    <button type="submit" class="btn-primary" style="margin-top: 0.8rem;">Add to Order</button>
+  </form>
+</section>
+{% endblock %}

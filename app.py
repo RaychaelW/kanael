@@ -5,8 +5,8 @@ import os
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "CHANGE_ME_TO_SOMETHING_RANDOM" 
-ADMIN_PASSWORD = "kanaeladmin"  # password to access admin. 
+app.secret_key = "CHANGE_ME_TO_SOMETHING_RANDOM"
+ADMIN_PASSWORD = "kanaeladmin"  # password to access admin.
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join(BASE_DIR, "kanael.db")
@@ -23,7 +23,7 @@ def init_db():
     conn = get_db_connection()
     cur = conn.cursor()
 
-    # Menu items 
+    # Menu items
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS menu_items (
@@ -66,7 +66,7 @@ def init_db():
         """
     )
 
-    # contact messages table
+    # Contact messages table
     cur.execute(
         """
         CREATE TABLE IF NOT EXISTS messages (
@@ -79,7 +79,7 @@ def init_db():
         """
     )
 
-
+    # Seed demo menu items if empty
     cur.execute("SELECT COUNT(*) AS c FROM menu_items")
     count = cur.fetchone()["c"]
     if count == 0:
@@ -119,6 +119,7 @@ def init_db():
 with app.app_context():
     init_db()
 
+
 def login_required(view_func):
     @wraps(view_func)
     def wrapped_view(*args, **kwargs):
@@ -126,10 +127,11 @@ def login_required(view_func):
             flash("Please log in to access the admin area.", "warning")
             return redirect(url_for("admin_login"))
         return view_func(*args, **kwargs)
+
     return wrapped_view
 
-# Helper functions 
 
+# Helper functions
 def _get_cart():
     return session.get("cart", {})
 
@@ -168,8 +170,53 @@ def _calculate_cart_details(cart):
     return items, grand_total
 
 
-#  Public routes 
+def handle_custom_item(base_item_name, item_label):
+    """Handle both custom pancake and waffle creation."""
+    # Find the base menu item in the database
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute("SELECT id FROM menu_items WHERE name = ?", (base_item_name,))
+    row = cur.fetchone()
+    conn.close()
 
+    if not row:
+        flash(f"Base item for custom {item_label} not found.", "danger")
+        return redirect(url_for("menu"))
+
+    item_id = row["id"]
+
+    if request.method == "POST":
+        toppings = request.form.getlist("toppings")
+        adjustments = request.form.getlist("adjustments")
+        other = request.form.get("other", "").strip()
+
+        parts = []
+        if toppings:
+            parts.append("Toppings: " + ", ".join(toppings))
+        if adjustments:
+            parts.append("Adjustments: " + ", ".join(adjustments))
+        if other:
+            parts.append("Notes: " + other)
+
+        description = f"{item_label.title()} - " + ("; ".join(parts) if parts else "no changes")
+
+        # Store custom notes in the session so it can show at checkout
+        custom_notes = session.get("custom_notes", [])
+        custom_notes.append(description)
+        session["custom_notes"] = custom_notes
+
+        # Add one base item to the cart
+        cart = _get_cart()
+        cart[str(item_id)] = cart.get(str(item_id), 0) + 1
+        _save_cart(cart)
+
+        flash(f"Custom {item_label} added to your order.", "success")
+        return redirect(url_for("cart"))
+
+    return render_template("custom_item.html", item_label=item_label, base_item_name=base_item_name)
+
+
+#  Public routes
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -248,6 +295,7 @@ def checkout():
         return redirect(url_for("menu"))
 
     items, grand_total = _calculate_cart_details({int(k): v for k, v in cart.items()})
+    custom_notes = session.get("custom_notes", [])
 
     if request.method == "POST":
         name = request.form.get("name", "").strip()
@@ -255,9 +303,17 @@ def checkout():
         address = request.form.get("address", "").strip()
         notes = request.form.get("notes", "").strip()
 
+        # Attach custom pancake/waffle notes into overall notes
+        if custom_notes:
+            extra_text = "Custom items:\n" + "\n".join(custom_notes)
+            if notes:
+                notes = notes + "\n\n" + extra_text
+            else:
+                notes = extra_text
+
         if not name or not phone:
             flash("Name and phone are required.", "danger")
-            return render_template("checkout.html", items=items, total=grand_total)
+            return render_template("checkout.html", items=items, total=grand_total, custom_notes=custom_notes)
 
         conn = get_db_connection()
         cur = conn.cursor()
@@ -284,12 +340,26 @@ def checkout():
         conn.commit()
         conn.close()
 
-        # Clear cart
+        # Clear cart and custom notes
         session["cart"] = {}
+        session.pop("custom_notes", None)
         flash("Thank you! Your order has been placed.", "success")
         return redirect(url_for("confirm", order_id=order_id))
 
-    return render_template("checkout.html", items=items, total=grand_total)
+    # GET request -> show checkout page
+    return render_template("checkout.html", items=items, total=grand_total, custom_notes=custom_notes)
+
+
+@app.route("/custom/pancake", methods=["GET", "POST"])
+def custom_pancake():
+    # This assumes "Pancake Stack" as a brunch item in your menu_items
+    return handle_custom_item("Pancake Stack", "pancake")
+
+
+@app.route("/custom/waffle", methods=["GET", "POST"])
+def custom_waffle():
+    # This assumes "Banana & Nutella Waffle" as a brunch item
+    return handle_custom_item("Banana & Nutella Waffle", "waffle")
 
 
 @app.route("/confirm/<int:order_id>")
@@ -336,8 +406,7 @@ def contact():
     return render_template("contact.html")
 
 
-# admin area  
-
+# admin area
 @app.route("/admin/login", methods=["GET", "POST"])
 def admin_login():
     if request.method == "POST":
@@ -356,6 +425,7 @@ def admin_logout():
     session.pop("is_admin", None)
     flash("You have been logged out.", "info")
     return redirect(url_for("index"))
+
 
 @app.route("/admin")
 @login_required
@@ -434,6 +504,7 @@ def admin_orders():
     orders = cur.fetchall()
     conn.close()
     return render_template("admin_orders.html", orders=orders)
+
 
 @app.route("/admin/messages")
 @login_required

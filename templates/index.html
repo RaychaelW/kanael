@@ -1,27 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Kanael Dessert Café</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Welcome to Kanael Dessert Café </h1>
-        <nav>
-            <a href="/">Home</a> |
-            <a href="/menu">Menu</a> |
-            <a href="/checkout">Order</a> |
-            <a href="/admin">Admin</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h1>Luxury Desserts Crafted with Love</h1>
+  <p>Indulge in our signature cakes, pastries and sweet treats, freshly prepared at Kanael Dessert Café.</p>
+  <a href="{{ url_for('menu') }}" class="btn-primary">View Menu</a>
+</section>
 
-    <main>
-        <p>Luxury desserts crafted with love </p>
-    </main>
-
-    <footer>
-        <p>Contact us at kanael@desserts.com | © 2025 Kanael</p>
-    </footer>
-</body>
-</html>
+<section class="menu-page">
+  <h2>Our Favourites</h2>
+  <p class="menu-subtitle">A little taste of what you can enjoy in our café.</p>
+  <p style="text-align:center; font-size:0.95rem;">
+    Browse our full menu to see all desserts, drinks and brunch options.
+  </p>
+</section>
+{% endblock %}

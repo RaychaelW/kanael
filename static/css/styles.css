@@ -1,0 +1,349 @@
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  margin: 0;
+  background: #fff7f5;
+  color: #333;
+}
+
+/* Limits content width so things aren’t glued to the left */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3rem;
+}
+
+/*  Header & Footer  */
+
+.site-header,
+.site-footer {
+  background: #f0d6c8;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.site-footer {
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  justify-content: center;
+}
+
+.logo {
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Nav links inside header */
+.site-header nav a,
+.site-header a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.site-header nav a:hover,
+.site-header a:hover {
+  text-decoration: underline;
+}
+
+/* Homepage */
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+  background: #fbe1e6;
+  border-radius: 20px;
+  max-width: 1100px;
+  margin: 2rem auto 1rem;
+  box-sizing: border-box;
+}
+
+.hero h1 {
+  font-size: 2.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.hero p {
+  font-size: 1rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Buttons */
+
+.btn,
+button,
+.btn-primary {
+  background: #e09ba5;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn:hover,
+button:hover,
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid #e09ba5;
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  color: #333;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-outline:hover {
+  background: #e09ba5;
+  color: #fff;
+}
+
+/*  Flash messages  */
+
+.flash-container {
+  margin-bottom: 1rem;
+}
+
+.flash {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  background: #ffe7c2;
+}
+
+/* Menu grid  */
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.menu-item {
+  background: #fdf1e7;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+/* Grouped menu page (Desserts / Drinks / Brunch)  */
+
+.menu-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 3rem;
+}
+
+.menu-page h2 {
+  font-size: 2.3rem;
+  text-align: center;
+  margin-bottom: 0.4rem;
+}
+
+.menu-subtitle {
+  text-align: center;
+  color: #555;
+  margin-bottom: 2rem;
+  font-size: 0.98rem;
+}
+
+.menu-section {
+  margin-bottom: 2.4rem;
+}
+
+.menu-section-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #e1b9b0;
+  padding-bottom: 0.4rem;
+}
+
+.menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-list-item {
+  background: #fdf1e7;
+  border-radius: 14px;
+  padding: 0.9rem 1rem 1rem;
+  margin-bottom: 0.9rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.menu-item-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.menu-item-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.menu-item-price {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.menu-item-description {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 0.93rem;
+  color: #444;
+}
+
+.menu-list-item form {
+  text-align: right;
+}
+
+/* Create Your Own callout  */
+
+.menu-builder-callout {
+  margin-top: 1.5rem;
+  padding: 1.2rem 1rem;
+  background: #f6d5ce;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.menu-builder-callout h4 {
+  margin: 0 0 0.4rem;
+  font-size: 1.1rem;
+}
+
+.menu-builder-callout p {
+  margin: 0 0 0.8rem;
+  font-size: 0.95rem;
+}
+
+.builder-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+/*  Custom pancake / waffle builder */
+
+.custom-builder {
+  max-width: 800px;
+  margin: 2.5rem auto 3rem;
+  padding: 1.5rem 1.8rem;
+  background: #fdf1e7;
+  border-radius: 18px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+}
+
+.custom-builder h2 {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+}
+
+.custom-form fieldset {
+  border: 1px solid #f0c4b7;
+  border-radius: 12px;
+  padding: 0.8rem 1rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.custom-form legend {
+  padding: 0 0.4rem;
+  font-weight: 600;
+}
+
+.custom-form label {
+  display: block;
+  font-size: 0.92rem;
+  margin-bottom: 0.3rem;
+}
+
+.custom-form textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 0.4rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid #e3c1b6;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/*  Checkout custom notes box  */
+
+.custom-notes {
+  margin-top: 1rem;
+  padding: 0.8rem 1rem;
+  background: #fdf1e7;
+  border-radius: 12px;
+  font-size: 0.92rem;
+}
+
+.custom-notes h4 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+}
+
+.custom-notes ul {
+  margin: 0.3rem 0 0;
+  padding-left: 1.2rem;
+}
+
+/*  Admin login & tables (your original styles) */
+
+.admin-login {
+  max-width: 400px;
+  margin: 2.5rem auto 3rem;
+  padding: 1.5rem 1.8rem;
+  background: #fdf1e7;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.admin-login-form label {
+  display: block;
+  margin-bottom: 0.8rem;
+}
+
+.admin-login-form input[type="password"] {
+  width: 100%;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #e3c1b6;
+  margin-top: 0.2rem;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #fdf1e7;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 0.6rem 0.7rem;
+  border-bottom: 1px solid #f0d6c8;
+  vertical-align: top;
+}
+
+.admin-table th {
+  background: #f0d6c8;
+  text-align: left;
+}
