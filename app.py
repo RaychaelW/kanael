@@ -11,6 +11,27 @@ ADMIN_PASSWORD = "kanaeladmin"  # password to access admin.
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 DB_PATH = os.path.join(BASE_DIR, "kanael.db")
 
+CATEGORY_CONFIG = {
+    "desserts": {
+        "title": "Desserts",
+        "category": "Dessert",
+        "hero_image": "images/dessert.jpg",
+        "tagline": "Cakes, puddings and sweet treats freshly made."
+    },
+    "drinks": {
+        "title": "Drinks",
+        "category": "Drink",
+        "hero_image": "images/drinks.jpg",
+        "tagline": "Iced lattes, hot chocolates and more."
+    },
+    "brunch": {
+        "title": "Brunch",
+        "category": "Brunch",
+        "hero_image": "images/brunch.jpg",
+        "tagline": "Waffles, stacks and light bites."
+    }
+}
+
 
 def get_db_connection():
     conn = sqlite3.connect(DB_PATH)
@@ -78,7 +99,7 @@ def init_db():
         );
         """
     )
-        # Ensure reply columns exist on messages table
+    # Ensure reply columns exist on messages table
     cur.execute("PRAGMA table_info(messages)")
     cols = [row[1] for row in cur.fetchall()]
 
@@ -87,7 +108,6 @@ def init_db():
 
     if "replied_at" not in cols:
         cur.execute("ALTER TABLE messages ADD COLUMN replied_at TEXT")
-
 
     # Seed demo menu items if empty
     cur.execute("SELECT COUNT(*) AS c FROM menu_items")
@@ -181,8 +201,7 @@ def _calculate_cart_details(cart):
 
 
 def handle_custom_item(base_item_name, item_label):
-    """Handle both custom pancake and waffle creation."""
-    # Find the base menu item in the database
+    """Handle both custom pancake and waffle creation with background image."""
     conn = get_db_connection()
     cur = conn.cursor()
     cur.execute("SELECT id FROM menu_items WHERE name = ?", (base_item_name,))
@@ -194,6 +213,14 @@ def handle_custom_item(base_item_name, item_label):
         return redirect(url_for("menu"))
 
     item_id = row["id"]
+
+    # Choose background image based on item label
+    if item_label == "pancake":
+        background_image = "images/pancake.jpg"
+    elif item_label == "waffle":
+        background_image = "images/waffle.jpg"
+    else:
+        background_image = None
 
     if request.method == "POST":
         toppings = request.form.getlist("toppings")
@@ -223,7 +250,12 @@ def handle_custom_item(base_item_name, item_label):
         flash(f"Custom {item_label} added to your order.", "success")
         return redirect(url_for("cart"))
 
-    return render_template("custom_item.html", item_label=item_label, base_item_name=base_item_name)
+    return render_template(
+        "custom_item.html",
+        item_label=item_label,
+        base_item_name=base_item_name,
+        background_image=background_image,
+    )
 
 
 #  Public routes
@@ -259,6 +291,25 @@ def menu():
     conn.close()
 
     return render_template("menu.html", desserts=items, selected_category=category, search=search)
+
+
+@app.route("/menu/<slug>")
+def menu_category(slug):
+    config = CATEGORY_CONFIG.get(slug)
+    if not config:
+        flash("Unknown menu category.", "warning")
+        return redirect(url_for("menu"))
+
+    conn = get_db_connection()
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT * FROM menu_items WHERE category = ? ORDER BY name",
+        (config["category"],),
+    )
+    items = cur.fetchall()
+    conn.close()
+
+    return render_template("category_menu.html", items=items, config=config)
 
 
 @app.route("/add_to_cart/<int:item_id>", methods=["POST"])
@@ -526,6 +577,7 @@ def admin_messages():
     conn.close()
     return render_template("admin_messages.html", messages=messages)
 
+
 @app.route("/admin/messages/<int:msg_id>", methods=["GET", "POST"])
 @login_required
 def admin_view_message(msg_id):
@@ -563,6 +615,7 @@ def admin_view_message(msg_id):
 
     conn.close()
     return render_template("admin_message_view.html", message=message)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

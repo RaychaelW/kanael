@@ -1,83 +1,53 @@
 {% extends "base.html" %}
 {% block content %}
 <section class="menu-page">
-  <h2>Our Menu</h2>
-  <p class="menu-subtitle">A curated selection of handcrafted desserts, drinks and brunch favourites.</p>
 
-  {# Desserts Section #}
-  {% set desserts_list = desserts | selectattr('category', 'equalto', 'Dessert') | list %}
-  {% if desserts_list %}
-    <div class="menu-section">
-      <h3 class="menu-section-title">Desserts</h3>
-      <ul class="menu-list">
-        {% for item in desserts_list %}
-          <li class="menu-list-item">
-            <div class="menu-item-main">
-              <span class="menu-item-name">{{ item.name }}</span>
-              <span class="menu-item-price">£{{ "%.2f"|format(item.price) }}</span>
-            </div>
-            <p class="menu-item-description">{{ item.description }}</p>
-            <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="post">
-              <button type="submit" class="btn-primary">Add to Cart</button>
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
+  <h2>Discover Our Menu</h2>
+  <p class="menu-intro">
+    Explore our different varieties of desserts, drinks and brunch favourites.  
+    Choose a category to get started.
+  </p>
+
+  <div class="menu-category-cards">
+
+    <!-- Desserts -->
+    <div class="menu-card">
+      <h3>Desserts</h3>
+      <p>Cakes, puddings & sweet treats.</p>
+      <a href="{{ url_for('menu_category', slug='desserts') }}" class="btn-primary menu-card-btn">
+        View Desserts
+      </a>
     </div>
-  {% endif %}
 
-  {# Drinks Section #}
-  {% set drinks_list = desserts | selectattr('category', 'equalto', 'Drink') | list %}
-  {% if drinks_list %}
-    <div class="menu-section">
-      <h3 class="menu-section-title">Drinks</h3>
-      <ul class="menu-list">
-        {% for item in drinks_list %}
-          <li class="menu-list-item">
-            <div class="menu-item-main">
-              <span class="menu-item-name">{{ item.name }}</span>
-              <span class="menu-item-price">£{{ "%.2f"|format(item.price) }}</span>
-            </div>
-            <p class="menu-item-description">{{ item.description }}</p>
-            <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="post">
-              <button type="submit" class="btn-primary">Add to Cart</button>
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
+    <!-- Drinks -->
+    <div class="menu-card">
+      <h3>Drinks</h3>
+      <p>Iced lattes, hot chocolates & more.</p>
+      <a href="{{ url_for('menu_category', slug='drinks') }}" class="btn-primary menu-card-btn">
+        View Drinks
+      </a>
     </div>
-  {% endif %}
 
-  {# Brunch Section #}
-  {% set brunch_list = desserts | selectattr('category', 'equalto', 'Brunch') | list %}
-  {% if brunch_list %}
-    <div class="menu-section">
-      <h3 class="menu-section-title">Brunch</h3>
-      <ul class="menu-list">
-        {% for item in brunch_list %}
-          <li class="menu-list-item">
-            <div class="menu-item-main">
-              <span class="menu-item-name">{{ item.name }}</span>
-              <span class="menu-item-price">£{{ "%.2f"|format(item.price) }}</span>
-            </div>
-            <p class="menu-item-description">{{ item.description }}</p>
-            <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="post">
-              <button type="submit" class="btn-primary">Add to Cart</button>
-            </form>
-          </li>
-        {% endfor %}
-      </ul>
-
-      {# Create Your Own callout under Brunch #}
-      <div class="menu-builder-callout">
-        <h4>Create Your Own</h4>
-        <p>Build your perfect pancake or waffle with your favourite toppings.</p>
-        <div class="builder-buttons">
-          <a href="{{ url_for('custom_pancake') }}" class="btn-outline">Custom Pancake</a>
-          <a href="{{ url_for('custom_waffle') }}" class="btn-outline">Custom Waffle</a>
-        </div>
-      </div>
+    <!-- Brunch -->
+    <div class="menu-card">
+      <h3>Brunch</h3>
+      <p>Waffles, stacks & light bites.</p>
+      <a href="{{ url_for('menu_category', slug='brunch') }}" class="btn-primary menu-card-btn">
+        View Brunch
+      </a>
     </div>
-  {% endif %}
+
+  </div>
+
+  <!-- Create Your Own -->
+  <div class="menu-builder-callout">
+    <h4>Create Your Own</h4>
+    <p>Build your perfect pancake or waffle with your favourite toppings.</p>
+    <div class="builder-buttons">
+      <a href="{{ url_for('custom_pancake') }}" class="btn-outline">Custom Pancake</a>
+      <a href="{{ url_for('custom_waffle') }}" class="btn-outline">Custom Waffle</a>
+    </div>
+  </div>
+
 </section>
 {% endblock %}

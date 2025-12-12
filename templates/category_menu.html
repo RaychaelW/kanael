@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="menu-page menu-page-with-bg" style="background-image: linear-gradient(130deg, rgba(0,0,0,0.55), rgba(0,0,0,0.15)), url('{{ url_for("static", filename=config.hero_image) }}');">
+  <div class="menu-page-inner">
+    <header class="menu-page-header">
+      <h2>{{ config.title }}</h2>
+      <p>{{ config.tagline }}</p>
+    </header>
+
+    <div class="menu-card">
+      <ul class="menu-list">
+        {% for item in items %}
+          <li class="menu-list-item">
+            <div class="menu-item-main">
+              <span class="menu-item-name">{{ item.name }}</span>
+              <span class="menu-item-price">£{{ "%.2f"|format(item.price) }}</span>
+            </div>
+            <p class="menu-item-description">{{ item.description }}</p>
+            <form action="{{ url_for('add_to_cart', item_id=item.id) }}" method="post">
+              <button type="submit" class="btn-primary">Add to Cart</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

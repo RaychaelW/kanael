@@ -5,6 +5,20 @@ body {
   color: #333;
 }
 
+/* Make footer stick to bottom when content is short */
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
 /* Limits content width so things aren’t glued to the left */
 main {
   max-width: 1100px;
@@ -55,22 +69,29 @@ main {
 
 .hero {
   text-align: center;
-  padding: 4rem 1rem;
-  background: #fbe1e6;
-  border-radius: 20px;
-  max-width: 1100px;
-  margin: 2rem auto 1rem;
+  padding: 5rem 2rem;
+  border-radius: 26px;
+  max-width: 900px;
+  margin: 2.5rem auto;
   box-sizing: border-box;
+
+  /* background image + soft overlay */
+  background-image:
+    linear-gradient(120deg, rgba(0,0,0,0.45), rgba(0,0,0,0.1)),
+    url("../images/background.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+
+  min-height: 380px;
 }
 
 .hero h1 {
-  font-size: 2.6rem;
-  margin-bottom: 0.6rem;
+  color: #fff;
 }
 
 .hero p {
-  font-size: 1rem;
-  margin-bottom: 1.2rem;
+  color: #fce9f3;
 }
 
 /* Buttons */
@@ -160,6 +181,28 @@ button:hover,
   font-size: 0.98rem;
 }
 
+.menu-category-links {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.menu-category-links a {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid #f0d6c8;
+  background: #fffaf6;
+  text-decoration: none;
+  color: #5c3b36;
+}
+
+.menu-category-links a:hover {
+  background: #f0d6c8;
+}
+
 .menu-section {
   margin-bottom: 2.4rem;
 }
@@ -238,6 +281,40 @@ button:hover,
   gap: 0.8rem;
   flex-wrap: wrap;
 }
+/* Cute rounded category cards */
+.menu-category-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0 3rem;
+}
+
+.menu-card {
+  background: #fdf1e7;
+  border-radius: 22px;
+  padding: 1.5rem 1.3rem;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+}
+
+.menu-card h3 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  margin-bottom: 0.3rem;
+  color: #3b2624;
+}
+
+.menu-card p {
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  color: #5a4b42;
+}
+
+.menu-card-btn {
+  margin-top: 0.3rem;
+  display: inline-block;
+}
+
 
 /*  Custom pancake / waffle builder */
 
@@ -548,4 +625,68 @@ button:hover,
 
 .contact-form button {
   margin-top: 0.5rem;
+}
+.admin-badge {
+  display: inline-block;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: #3b2624;
+  color: #fff;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-left: 1rem;
+}
+.contact-map-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  display: block;
+}
+
+ .category-hero {
+  position: relative;
+  border-radius: 22px;
+  overflow: hidden;
+  height: 220px;
+  margin-bottom: 0.6rem;
+}
+
+.category-hero-image {
+  position: absolute;
+  inset: 0;
+}
+
+.category-hero-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.category-hero-overlay {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  padding: 1.4rem 1.6rem;
+  background: linear-gradient(
+    120deg,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.1)
+  );
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.category-hero-overlay h2 {
+  margin: 0 0 0.3rem;
+  font-size: 2rem;
+}
+
+.category-hero-overlay p {
+  margin: 0;
+  font-size: 0.95rem;
 }

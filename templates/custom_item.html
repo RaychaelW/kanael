@@ -1,31 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
+{% if background_image %}
+<section class="custom-builder" style="background-image: linear-gradient(120deg, rgba(0,0,0,0.45), rgba(0,0,0,0.15)), url('{{ url_for("static", filename=background_image) }}'); background-size: cover; background-position: center; color: #fff;">
+{% else %}
 <section class="custom-builder">
-  <h2>Create Your Own {{ item_label|title }}</h2>
-  <p class="menu-subtitle">Choose your toppings and adjustments, and we’ll prepare it just the way you like it.</p>
+{% endif %}
+  <h2>Create Your Own {{ item_label.title() }}</h2>
+  <p>Customise your {{ base_item_name }} with your choice of toppings and adjustments.</p>
 
   <form method="post" class="custom-form">
     <fieldset>
-      <legend>Extra toppings</legend>
-      <label><input type="checkbox" name="toppings" value="fresh berries"> Fresh berries</label>
-      <label><input type="checkbox" name="toppings" value="banana slices"> Banana slices</label>
+      <legend>Toppings</legend>
+      <label><input type="checkbox" name="toppings" value="Strawberries"> Strawberries</label>
+      <label><input type="checkbox" name="toppings" value="Banana slices"> Banana slices</label>
       <label><input type="checkbox" name="toppings" value="Nutella"> Nutella</label>
-      <label><input type="checkbox" name="toppings" value="caramel sauce"> Caramel sauce</label>
-      <label><input type="checkbox" name="toppings" value="vanilla ice cream"> Vanilla ice cream</label>
+      <label><input type="checkbox" name="toppings" value="Whipped cream"> Whipped cream</label>
+      <label><input type="checkbox" name="toppings" value="Maple syrup"> Maple syrup</label>
     </fieldset>
 
     <fieldset>
-      <legend>Remove / adjust</legend>
-      <label><input type="checkbox" name="adjustments" value="no nuts"> No nuts</label>
-      <label><input type="checkbox" name="adjustments" value="less syrup"> Less syrup</label>
-      <label><input type="checkbox" name="adjustments" value="extra crispy"> Extra crispy</label>
+      <legend>Adjustments</legend>
+      <label><input type="checkbox" name="adjustments" value="Extra crispy"> Extra crispy</label>
+      <label><input type="checkbox" name="adjustments" value="Less syrup"> Less syrup</label>
+      <label><input type="checkbox" name="adjustments" value="No nuts"> No nuts</label>
     </fieldset>
 
-    <label>Other notes
-      <textarea name="other" placeholder="E.g. cut into smaller pieces, sauce on the side..."></textarea>
-    </label>
+    <fieldset>
+      <legend>Other notes</legend>
+      <textarea name="other" placeholder="Allergies, special requests, or extra details"></textarea>
+    </fieldset>
 
-    <button type="submit" class="btn-primary" style="margin-top: 0.8rem;">Add to Order</button>
+    <button type="submit" class="btn-primary">Add to Order</button>
   </form>
 </section>
 {% endblock %}
